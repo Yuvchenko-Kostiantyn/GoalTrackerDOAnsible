@@ -1,0 +1,17 @@
+---
+- name: Update cache
+  apt:
+    update_cache: yes
+    
+- name: Copy jenkins public key to his slave
+  template:
+    src: MasterSlave.pub
+    dest: /tmp/MasterSlave.pub
+  when: inventory_hostname == 'slave1'
+
+- name: line insert
+  lineinfile:
+    path: /home/ubuntu/.ssh/authorized_keys
+    line: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSBPD+IG+aSGMUx8EKivw6zsmtIDwHXHIUiCiGCvluXspPNHBgzhitvcI/wMcMtbvfisKmhdWpUFHSYGZl6eayJQ3vO1IiIGvi4qNN2+qcjmRWu4K5GntZslPCQ/yGqh240cQSzbmK5LWnITyzZZO5K9/3gJ2koOUg8WrR2DsYlxYyUIIqw/9MK5sbTF1hpZ+6edxQbRUHLoiYJyVPptwpAK2C1hpn3o1/fb5creAkPvrrtf7rhce2BibLx9SqE+ieOWKNnFJJPoRiKewxnUEDV8YOOVsdr8KoztuyDR5fLkyPFIOgfNxxMgCd5xJK20yhsthUgrl4KFgyXGl9clD3 user@Computer'
+    insertbefore: EOF
+  when: inventory_hostname == 'slave1'

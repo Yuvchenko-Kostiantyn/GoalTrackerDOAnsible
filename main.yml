@@ -1,0 +1,28 @@
+---
+- hosts: 
+    - jenkins_server
+
+  become: true
+
+  vars_files:
+    - vars/main.yml
+
+  
+  pre_tasks:
+  - include_tasks: tasks/setup.yml
+
+  roles:
+    - geerlingguy.java
+    - geerlingguy.jenkins
+
+- hosts:
+    - jenkins_slave
+  become: true
+
+  pre_tasks:
+  - include_tasks: tasks/setup.yml
+
+  roles:
+#    - db_filler
+    - geerlingguy.java
+    - geerlingguy.docker
